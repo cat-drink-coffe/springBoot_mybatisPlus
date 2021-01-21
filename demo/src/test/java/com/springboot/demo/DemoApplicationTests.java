@@ -31,8 +31,17 @@ class DemoApplicationTests {
 
     @Test
     public void insertIntoUser() {
-        int result = userMapper.insert(new User("黄飞鸿", 18, "1234567878@126.com"));
+        User user = new User();
+        int result = userMapper.insert(new User("嫪毐", 18, "1234567878@126.com"));
         System.out.println(result);
     }
 
+    @Test
+    public void updateUser() {
+        User user = new User();
+        user.setId(5L);
+        user.setAge(1);
+        int result = userMapper.updateById(user);
+        System.out.println(result);
+    }
 }
