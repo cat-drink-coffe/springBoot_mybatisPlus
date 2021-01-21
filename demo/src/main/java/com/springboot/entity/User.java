@@ -12,4 +12,7 @@ public class User {
     private String name;
     private Integer age;
     private String email;
+
+    public User(String 黄飞鸿, int i, String s) {
+    }
 }
