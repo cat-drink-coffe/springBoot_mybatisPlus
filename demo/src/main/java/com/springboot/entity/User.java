@@ -1,9 +1,6 @@
 package com.springboot.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.springboot.common.DateJacksonConverter;
@@ -23,13 +20,12 @@ public class User {
     private String name;
     private Integer age;
     private String email;
-    //@TableField(value = "gmt_create",fill = FieldFill.INSERT)
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-//    private Date  gmt_create;
+    @Version //乐观锁Version注解
+    private Integer version;
+
+    @TableField(value = "gmt_create",fill = FieldFill.INSERT)
     private LocalDateTime gmt_create;
-    //@TableField(value = "gmt_modified",fill = FieldFill.INSERT_UPDATE)
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-//    private Date  gmt_modified;
+    @TableField(value = "gmt_modified",fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime gmt_modified;
 
     public User(String name, int age, String email) {

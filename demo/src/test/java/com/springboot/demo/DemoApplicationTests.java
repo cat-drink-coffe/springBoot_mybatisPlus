@@ -39,9 +39,39 @@ class DemoApplicationTests {
     @Test
     public void updateUser() {
         User user = new User();
-        user.setId(3l);
+        user.setId(4l);
         user.setAge(1);
         int result = userMapper.updateById(user);
         System.out.println(result);
     }
+    // 测试乐观锁成功！
+    @Test
+    public void testOptimisticLocker(){
+        // 1、查询用户信息
+        User user = userMapper.selectById(1L);
+        // 2、修改用户信息
+        user.setName("kwhua");
+        user.setEmail("123456@qq.com");
+        // 3、执行更新操作
+        userMapper.updateById(user);
+    }
+    // 测试乐观锁失败！多线程下
+    @Test
+    public void testOptimisticLocker2(){
+
+        // 线程 1
+        User user = userMapper.selectById(1L);
+        user.setName("kwhua555");
+        user.setEmail("123456@qq.com");
+
+        // 模拟另外一个线程执行了插队操作
+        User user2 = userMapper.selectById(1L);
+        user2.setName("kwhua666");
+        user2.setEmail("123456@qq.com");
+        userMapper.updateById(user2);
+
+        // 自旋锁来多次尝试提交！
+        userMapper.updateById(user); // 如果没有乐观锁就会覆盖插队线程的值！
+    }
+
 }
